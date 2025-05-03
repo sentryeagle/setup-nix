@@ -1,5 +1,7 @@
 # setup-nix
 
+[![GitHub: Release on Push](../../actions/workflows/release-on-push.yml/badge.svg)](../../actions/workflows/release-on-push.yml)
+
 Set up a GitHub Actions Workflow with a Specific Version of Nix.
 
 ## 🔣 Inputs
