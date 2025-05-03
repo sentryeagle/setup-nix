@@ -1,0 +1,44 @@
+name: "Setup Nix"
+description: "Set up Your GitHub Actions Workflow with a Specific Version of Nix."
+
+author: "SentryEagle"
+
+inputs:
+  install_url:
+    description: "Set URL pointing to a Nix installer script. Helpful for testing or pinning Nix to a specific version. [OPTIONAL]"
+  install_options:
+    description: "Set Nix installation options. These are passed to the Nix installer script. [OPTIONAL]"
+  nix_path:
+    description: "Set `NIX_PATH` environment variable. [OPTIONAL]"
+  extra_nix_config:
+    description: "Set extra Nix configuration to append to `/etc/nix/nix.conf`. [OPTIONAL]"
+  enable_kvm:
+    description: "If available, enable KVM for hardware-accelerated virtualization on Linux. [OPTIONAL]"
+    required: false
+    default: true
+  set_current_user_as_trusted_user:
+    description: "Set current user as `trusted-users`. [OPTIONAL]"
+    required: false
+    default: true
+  github_access_token:
+    description: "Set the GitHub access token to configure Nix to pull from GitHub. Helpful to work around rate limiting issues. [OPTIONAL]"
+
+branding:
+  icon: "corner-down-right"
+  color: "gray-dark"
+
+runs:
+  using: "composite"
+
+  steps:
+    - run: "${GITHUB_ACTION_PATH}/install-nix.sh"
+      shell: "bash"
+      env:
+        INPUT_EXTRA_NIX_CONFIG: "${{ inputs.extra_nix_config }}"
+        INPUT_GITHUB_ACCESS_TOKEN: "${{ inputs.github_access_token }}"
+        INPUT_INSTALL_URL: "${{ inputs.install_url }}"
+        INPUT_INSTALL_OPTIONS: "${{ inputs.install_options }}"
+        INPUT_NIX_PATH: "${{ inputs.nix_path }}"
+        INPUT_ENABLE_KVM: "${{ inputs.enable_kvm }}"
+        INPUT_SET_CURRENT_USER_AS_TRUSTED_USER: "${{ inputs.set_current_user_as_trusted_user }}"
+        GITHUB_TOKEN: "${{ github.token }}"

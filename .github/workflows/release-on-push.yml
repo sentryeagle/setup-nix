@@ -1,0 +1,25 @@
+name: "GitHub: Release on Push"
+
+on: ["push"]
+
+permissions:
+  contents: "write"
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "GitHub: Checkout Repository"
+        uses: "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683" #v4.2.2
+
+      - name: "GitHub: Delete Previous Release"
+        continue-on-error: true
+        run: "gh release delete latest --cleanup-tag --yes"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "GitHub: Create Release"
+        run: "gh release create latest --latest"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
