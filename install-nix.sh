@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# See: https://github.com/cachix/install-nix-action/blob/master/install-nix.sh
+
 set -euo pipefail
 
 if nix_path="$(type -p nix)" ; then
